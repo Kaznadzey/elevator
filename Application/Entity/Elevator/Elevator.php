@@ -41,6 +41,7 @@ class Elevator
     /** @var ElevatorItemCollection|null */
     private $itemCollection;
 
+    /** @var int */
     private $doorStatus;
 
     /**

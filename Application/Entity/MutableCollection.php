@@ -56,6 +56,9 @@ abstract class MutableCollection implements \Iterator, \Countable
         return $this->storage[$this->key()];
     }
 
+    /**
+     * Next item
+     */
     public function next()
     {
         $this->position++;
@@ -82,6 +85,9 @@ abstract class MutableCollection implements \Iterator, \Countable
         return $this->position < $this->count;
     }
 
+    /**
+     * To start
+     */
     public function rewind()
     {
         $this->position = 0;
