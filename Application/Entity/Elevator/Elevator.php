@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Application\Entity\Elevator;
 
+use Application\Config\Elevator\ElevatorDoorStatus;
 use Application\Entity\Elevator\Item\ElevatorItemCollection;
 
 /**
@@ -40,11 +41,13 @@ class Elevator
     /** @var ElevatorItemCollection|null */
     private $itemCollection;
 
+    private $doorStatus;
+
     /**
-     * @param int $floorMin
-     * @param int $floorMax
-     * @param int $weightMin
-     * @param int $weightMax
+     * @param int   $floorMin
+     * @param int   $floorMax
+     * @param int   $weightMin
+     * @param int   $weightMax
      * @param float $length
      * @param float $width
      * @param float $height
@@ -67,7 +70,8 @@ class Elevator
         $this->height    = $height;
 
         $this->area         = $this->length * $this->width;
-        $this->currentFloor = 0;
+        $this->currentFloor = $this->floorMin;
+        $this->doorStatus   = ElevatorDoorStatus::CLOSED;
     }
 
     /**
@@ -164,5 +168,21 @@ class Elevator
     public function setItemCollection(ElevatorItemCollection $itemCollection)
     {
         $this->itemCollection = $itemCollection;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDoorStatus() : int
+    {
+        return $this->doorStatus;
+    }
+
+    /**
+     * @param int $doorStatus
+     */
+    public function setDoorStatus(int $doorStatus)
+    {
+        $this->doorStatus = $doorStatus;
     }
 }

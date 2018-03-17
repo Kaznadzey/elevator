@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Application\Service\Elevator;
 
+use Application\Config\Elevator\ElevatorDoorStatus;
 use Application\Entity\Elevator\Elevator;
 use Application\Entity\Elevator\Item\ElevatorItem;
 use Application\Entity\Elevator\Item\ElevatorItemCollection;
@@ -63,7 +64,13 @@ class ElevatorService
     public function call(ElevatorItem $elevatorItem, int $floor) : bool
     {
         if ($elevatorItem->isAlive()) {
-            return $this->elevatorMoveManager->move($this->elevator, $floor);
+            if ($this->isDoorOpened()) {
+                $this->closeDoor();
+            };
+
+            if ($this->elevatorMoveManager->move($this->elevator, $floor)) {
+                return $this->openDoor();
+            }
         }
 
         throw new \InvalidArgumentException('Elevator item must be alive!');
@@ -81,7 +88,13 @@ class ElevatorService
         if ($elevatorItem->isAlive()
             && $this->elevatorItemManager->exists($this->elevator, $elevatorItem)
         ) {
-            return $this->elevatorMoveManager->move($this->elevator, $floor);
+            if ($this->isDoorOpened()) {
+                $this->closeDoor();
+            }
+
+            if ($this->elevatorMoveManager->move($this->elevator, $floor)) {
+                return $this->openDoor();
+            }
         }
 
         throw new \InvalidArgumentException('Elevator item must be alive and exists!');
@@ -108,6 +121,10 @@ class ElevatorService
      */
     public function addItemCollection(ElevatorItemCollection $itemCollection)
     {
+        if ($this->isDoorClosed()) {
+            $this->openDoor();
+        }
+
         return $this->elevatorItemManager->addItems($this->elevator, $itemCollection);
     }
 
@@ -130,6 +147,46 @@ class ElevatorService
      */
     public function removeItems(ElevatorItemCollection $elevatorItemCollection) : bool
     {
+        if ($this->isDoorClosed()) {
+            $this->openDoor();
+        }
+
         return $this->elevatorItemManager->removeItems($this->elevator, $elevatorItemCollection);
+    }
+
+    /**
+     * @return bool
+     */
+    private function isDoorOpened() : bool
+    {
+        return $this->elevator->getDoorStatus() === ElevatorDoorStatus::OPEN;
+    }
+
+    /**
+     * @return bool
+     */
+    private function isDoorClosed() : bool
+    {
+        return $this->elevator->getDoorStatus() === ElevatorDoorStatus::CLOSED;
+    }
+
+    /**
+     * @return bool
+     */
+    private function closeDoor()
+    {
+        $this->elevator->setDoorStatus(ElevatorDoorStatus::CLOSED);
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    private function openDoor()
+    {
+        $this->elevator->setDoorStatus(ElevatorDoorStatus::OPEN);
+
+        return true;
     }
 }

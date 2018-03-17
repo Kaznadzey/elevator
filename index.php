@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 use Application\DIContainer\DIManager;
 use Application\Entity\Elevator\Elevator;
 use Application\Entity\Elevator\Item\BagElevatorItem;
