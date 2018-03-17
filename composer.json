@@ -1,0 +1,17 @@
+{
+    "name": "root/elevator.loc",
+    "description": "Test application",
+    "license": "MIIT",
+    "authors": [
+        {
+            "name": "Nazar Kaznadzey",
+            "email": "nazar.kaznadzey@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "": "Application/"
+        }
+    }
+}
