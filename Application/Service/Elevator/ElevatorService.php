@@ -83,7 +83,7 @@ class ElevatorService
      * @return bool
      * @throws \InvalidArgumentException
      */
-    public function moveToFloor(ElevatorItem $elevatorItem, int $floor)
+    public function moveToFloor(ElevatorItem $elevatorItem, int $floor) : bool
     {
         if ($elevatorItem->isAlive()
             && $this->elevatorItemManager->exists($this->elevator, $elevatorItem)
@@ -107,7 +107,7 @@ class ElevatorService
      * @throws \DomainException
      * @throws \InvalidArgumentException
      */
-    public function addItem(ElevatorItem $elevatorItem)
+    public function addItem(ElevatorItem $elevatorItem) : bool
     {
         return $this->addItemCollection(new ElevatorItemCollection([$elevatorItem]));
     }
@@ -119,7 +119,7 @@ class ElevatorService
      * @throws \DomainException
      * @throws \InvalidArgumentException
      */
-    public function addItemCollection(ElevatorItemCollection $itemCollection)
+    public function addItemCollection(ElevatorItemCollection $itemCollection) : bool
     {
         if ($this->isDoorClosed()) {
             $this->openDoor();
@@ -134,7 +134,7 @@ class ElevatorService
      * @return bool
      * @throws \DomainException
      */
-    public function removeItem(ElevatorItem $elevatorItem)
+    public function removeItem(ElevatorItem $elevatorItem) : bool
     {
         return $this->removeItems(new ElevatorItemCollection([$elevatorItem]));
     }
@@ -173,7 +173,7 @@ class ElevatorService
     /**
      * @return bool
      */
-    private function closeDoor()
+    private function closeDoor() : bool
     {
         $this->elevator->setDoorStatus(ElevatorDoorStatus::CLOSED);
 
@@ -183,7 +183,7 @@ class ElevatorService
     /**
      * @return bool
      */
-    private function openDoor()
+    private function openDoor() : bool
     {
         $this->elevator->setDoorStatus(ElevatorDoorStatus::OPEN);
 
