@@ -20,7 +20,7 @@ class ElevatorItemManager
      * @throws \DomainException
      * @throws \InvalidArgumentException
      */
-    public function addItems(Elevator $elevator, ElevatorItemCollection $itemCollection)
+    public function addItems(Elevator $elevator, ElevatorItemCollection $itemCollection) : bool
     {
         if ($this->canAdd($elevator, $itemCollection)) {
             $collection = $elevator->getItemCollection();

@@ -39,7 +39,7 @@ class ElevatorMoveManager
      *
      * @return bool
      */
-    private function isOnFloor(Elevator $elevator, int $floor)
+    private function isOnFloor(Elevator $elevator, int $floor) : bool
     {
         return $elevator->getCurrentFloor() === $floor;
     }
